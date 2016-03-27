@@ -1,0 +1,76 @@
+{% extends 'rango/base.html' %}
+
+{% load staticfiles %}
+
+{% block title %}{{ category_name }}{% endblock %} # 替换掉base.html中block title的相关内容
+{% block body_block %}
+    <h1>{{ category_name }}</h1>
+    {% if category %}
+        {% if pages %}
+            <ul>
+                {% for page in pages %}
+                    <li>
+                        <a href="{% url 'goto' %}?page_id={{ page.id }}">{{ page.title }}</a>
+                        {% if page.views > 1 %}
+                            ({{ page.views }} views)
+                        {% elif page.views == 1 %}
+                            ({{ page.views }} views)
+                        {% endif %}
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <strong>No pages currently in category.</strong><br>
+        {% endif %}
+        {% if user.is_authenticated %}
+            永岁飘零,殢无伤!!!<br>
+            <a href="/rango/category/{{ category.slug }}/add_page/">Add Page</a>
+        {% endif %}
+    {% else %}
+        The specified category {{ category_name }} does not exist!
+    {% endif %}
+
+    <p>
+        <strong id="like_count">{{ category.likes }}</strong> People like this category
+        {% if user.is_authenticated %}
+            <button id="likes" data-catid="{{ category.id }}" class="btn btn-primary"
+                    type="button">
+                <span class="glyphicon glyphicon-thumbs-up"></span>
+                Like
+            </button>
+        {% endif %}
+    </p>
+
+
+    {#    开始搜索#}
+    <form class="form-inline" id="user_form" method="post"
+          action=".">
+        {% csrf_token %}
+        <input class="form-control" type="text" size="50"
+               name="query" value="{{ query }}" id="query">
+        <input class="btn btn-primary" type="submit" name="submit"
+               value="Search">
+        <br>
+    </form>
+
+    <div class="panel">
+        {% if result_list %}
+            <div class="panel-heading">
+                <h3 class="panel-title">Results</h3>
+                <div class="panel-body">
+                    <div class="light-group">
+                        {% for result in result_list %}
+                            <div class="list-group-item">
+                                <h4 class="list-group-item-heading">
+                                    <a href="{{ result.link }}">{{ result.title }}</a>
+                                </h4>
+                                <p class="list-group-item-text">{{ result.summary }}</p>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends 'rango/base.html' %}
+{% load staticfiles %}
+{% block title %}
+    About
+{% endblock %}
+
+{% block body_block %}
+    <div class="page-header" xmlns="http://www.w3.org/1999/html">
+        <h1>永岁飘零,殢无伤</h1>
+        <h1>清香白莲,素还真</h1>
+    </div>
+    <button onclick="alert('You clicked the button using Javascript.');">
+        Click Me - I run Javascript
+    </button>
+    <br>
+    <button id="about-btn">Click Me - I'm Javascript on Speed.</button>
+    <p>This is a example</p>
+    <p>This is another example</p>
+
+
+    <div>
+        <p></strong>.</p>
+        <img width="90" height="100" src="{% static "images/软兔.jpg" %}" alt="软兔">
+    </div>
+
+    <div id="msg">Hello</div>
+
+{% endblock %}
+
+
